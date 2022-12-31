@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crawler</title>
+    <link rel="stylesheet" href="{% static 'css/search.css' %}"/>
+    <link rel="icon" type="image/png" href="{% static 'assets/favicon.png' %}"/>
+</head>
+<body>
+
+<form method="POST" class="form">
+    <input id='search-btn' type='checkbox'/>
+    <label for='search-btn'>Show search bar</label>
+    <input id='search-bar' type='url' placeholder='Enter your url...'/>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="{% static 'js/search.js' %}"></script>
+</body>
+</html>

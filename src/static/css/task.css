@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
+
+*, :before, :after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font: inherit;
+}
+
+html {
+    overflow-x: hidden;
+    font-family: 'Secular One', sans-serif;
+}
+
+body {
+    background: #252525;
+    color: white;
+}
+
+header {
+    text-align: center;
+    background: #1abc9c;
+    color: white;
+    font-size: 25px;
+    border-radius: 5px;
+}
+
+header #main_url {
+    color: white;
+}
+
+header #main_url:hover {
+    color: orangered;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader-background {
+    filter: blur(5px);
+}
+
+
+.loader {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    user-select: none;
+}
+
+@keyframes load {
+    0% {
+        opacity: 0.08;
+        filter: blur(5px);
+        font-size: 30px;
+        font-weight: 400;
+        letter-spacing: 3px;
+    }
+    100% {
+        opacity: 0.99;
+        font-size: 20px;
+        font-weight: 600;
+        filter: blur(0);
+    }
+}
+
+.animate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: auto;
+    animation: load 1.2s infinite 0s ease-in-out;
+    animation-direction: alternate;
+    text-shadow: 0 0 1px white;
+}
+
+
+/* List */
+main .links_list {
+    counter-reset: index;
+    padding: 0;
+    width: 50%;
+}
+
+/* List element */
+main .links_list li {
+    counter-increment: index;
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    box-sizing: border-box;
+    font-size: 0.9rem;
+}
+
+
+/* Element counter */
+main .links_list li::before {
+    content: counters(index, ".", decimal-leading-zero);
+    font-size: 1rem;
+    text-align: right;
+    font-weight: bold;
+    min-width: 50px;
+    padding-right: 12px;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+    align-self: flex-start;
+    background-image: linear-gradient(to bottom, aquamarine, orangered);
+    background-attachment: fixed;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* Element separation */
+main .links_list li + li {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}

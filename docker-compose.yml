@@ -1,2 +1,95 @@
 version: "3.8"
 
+
+services:
+    rabbitmq:
+        image: rabbitmq:3.11-management-alpine  # management has browser explorer
+        restart: always
+        hostname: rabbitmq  # after recreating the container, docker will get a different name and forget the old data
+        ports:
+            - "15672:15672"  # HTTP API clients, management UI and rabbitmqadmin
+            - "5672:5672"  # AMQP port
+        environment:
+            - RABBITMQ_DEFAULT_USER  # from .env
+            - RABBITMQ_DEFAULT_PASS  # from .env
+            - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit disk_free_limit 2147483648  # low watermark
+        volumes:
+            - rabbitmq_volume:/var/lib/rabbitmq
+    
+    postgres:
+        image: postgres:15.1-alpine
+        restart: always
+        ports:
+            - "${OUT_POSTGRES_PORT}:5432"
+        environment:
+            - POSTGRES_DB  # from .env
+            - POSTGRES_USER  # from .env
+            - POSTGRES_PASSWORD  # from .env
+        volumes:
+            - postgres_volume:/var/lib/postgresql/data
+    
+    celery_worker:
+        build:
+            context: ./docker
+            args:
+                - BUILD_COMPONENT_NAME=celery_worker  # for image
+        restart: always
+        hostname: celery_worker
+        command: sh -c "./start.sh"
+        environment:
+            - CELERY_BROKER_URL  # from .env
+            - CELERY_RESULT_BACKEND_URL  # from .env
+        volumes:
+            - ./src:/app/src  # all project, because autodiscover search in all INSTALLED APPS
+        depends_on:
+            - rabbitmq
+            - postgres
+    
+    web_server:
+        build:
+            context: ./docker
+            args:
+                - BUILD_COMPONENT_NAME=web  # for image
+        restart: always
+        hostname: web_server
+        command: sh -c "./start.sh"
+        ports:
+            - "${OUT_WEB_SERVER_PORT}:8000"
+        environment:
+            - DB_HOST=${WEB_DB_HOST}  # from .env and set in django settings
+            - DB_PORT=${WEB_DB_PORT}  # from .env and set in django settings
+            - DB_NAME=${WEB_DB_NAME}  # from .env and set in django settings
+            - DB_USER=${WEB_DB_USER}  # from .env and set in django settings
+            - DB_PASSWORD=${WEB_DB_PASSWORD}  # from .env and set in django settings
+            - CELERY_BROKER_URL  # from .env and set in django settings
+            - CELERY_RESULT_BACKEND_URL  # from .env and set in django settings
+        volumes:
+            - ./src:/app/src
+        depends_on:
+            - celery_worker
+    
+    flower:
+        build:
+            context: ./docker
+            args:
+                - BUILD_COMPONENT_NAME=flower  # for image
+        restart: always
+        hostname: flower
+        command: sh -c "./start.sh"
+        ports:
+            - "${FLOWER_PORT}:${FLOWER_PORT}"
+        environment:
+            - FLOWER_PORT  # from .env
+            - CELERY_BROKER_URL  # from .env
+            - CELERY_RESULT_BACKEND_URL  # from .env
+        volumes:
+            - ./src:/app/src
+        depends_on:
+            - celery_worker
+
+volumes:
+    rabbitmq_volume:
+        driver: local
+    
+    postgres_volume:
+        driver: local

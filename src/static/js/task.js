@@ -5,10 +5,11 @@ $(document).ready(function () {
         $.ajax({
             type: "GET",
             url: "/api/task/" + task_id,
-            encode: true,
+            headers: {
+               'X-CSRFToken': getCookie('csrftoken'),
+            }
         }).done(function (data) {
-
-            // $("body").append("<p>" + JSON.stringify(data) + "</p>")
+            $("header").append("<p>" + JSON.stringify(data) + "</p>")
         });
     }
 

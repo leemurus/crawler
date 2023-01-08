@@ -102,6 +102,13 @@ main .links_list li {
     font-size: 0.9rem;
 }
 
+main .links_list li a {
+    color: aquamarine;
+}
+
+main .links_list li a:hover {
+    color: white;
+}
 
 /* Element counter */
 main .links_list li::before {

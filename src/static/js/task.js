@@ -40,7 +40,7 @@ $(document).ready(function () {
             } else if (data["status"] === "FAILURE") {
                 $(".links_list").hide()
                 removeLoader()
-                $("main").append("<h1 style='color: red'>ERROR</h1>")
+                $("main .error").show()
             } else {
                 setTimeout(updateTaskInfo, 1000);
             }

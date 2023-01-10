@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
 
-h1 {
-    font-size: 3em;
-}
-
 a {
     word-break: break-all;
 }
@@ -18,11 +14,13 @@ a {
 html {
     overflow-x: hidden;
     font-family: 'Secular One', sans-serif;
+    height: 100%;
 }
 
 body {
     background: #252525;
     color: white;
+    height: 100%;
 }
 
 header {
@@ -45,6 +43,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }
 
 .loader-background {
@@ -92,12 +91,21 @@ main {
     text-shadow: 0 0 1px white;
 }
 
+main .error {
+    display: none;
+}
+
+main .error h3 {
+    color: red;
+    font-size: 3em;
+}
 
 /* List */
 main .links_list {
     counter-reset: index;
     padding: 0;
     width: 50%;
+    height: 100%;
 }
 
 /* List element */

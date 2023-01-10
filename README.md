@@ -9,21 +9,38 @@ implement a simple web crawler in the form of a Django web app.
 Take home part should not be a “production ready” solution, however we encourage you to write a clean and readable
 code like you would do in real life.
 
+## Technologies
+
+- Django + DRF + django-celery-results + PostgreSQL
+- Celery + RabbiMQ + PostgreSQL + Flower
+
+## Makefile
+
+- `make init`: initialize the project for development (copy .env.copy to .env)
+- `make migrate`: perform migrations inside the django docker container
+- `make create-superuser`: create a superuser in the django docker container
+- `show this help`: show this help
+
 ## Preview:
 
 ### Search page
 
 ![img.png](docs/main_page.png)
 
+### Loading task page
+
+![img.png](docs/loading_task_page.png)
+
 ### Task page
 
 ![img.png](docs/task_page.png)
 
-## Links:
+## HTML elements links:
 
 - [Search page](https://codepen.io/thebabydino/pen/PBXRRm)
 - [List of links](https://codepen.io/equinusocio/pen/OqpBKJ)
 - [Loader](https://codepen.io/kumarsidharth/pen/VBBbJW)
+- [404 page](https://codepen.io/jh3y/pen/MWbvzKb)
 
 ## Inner details
 
@@ -48,3 +65,4 @@ code like you would do in real life.
     it to the worker: [link1](https://github.com/celery/celery/issues/3596)
     and [link2](https://stackoverflow.com/questions/9824172/find-out-whether-celery-task-exists)
 11. To print all queries in postgres `"postgres", "-c", "log_statement=all"`
+12. Regex faster than BeautifulSoup: [proof](https://gist.github.com/leemurus/4ae757c615057836c68f132dc73977e1).

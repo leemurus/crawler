@@ -30,7 +30,7 @@ def create_task_row(
         )
 
 
-@celery_app.task(name='crawl_page')
+@celery_app.task(name='crawl_page', default_retry_delay=(Exception,))
 def crawl_page(main_url: str) -> list[str]:
     html_text = requests.get(main_url).text.replace('&amp;', '&')
 

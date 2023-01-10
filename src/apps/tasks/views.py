@@ -1,9 +1,10 @@
 import uuid
 
 from django.core.validators import URLValidator
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 
@@ -33,8 +34,8 @@ def start_crawler_task(request) -> Response:
     url_validator = URLValidator()
     try:
         url_validator(url)
-    except ValidationError:
-        return Response(status=400)
+    except DjangoValidationError:
+        raise ValidationError()
 
     cr_task = CrawlerTask.get_last_task_by_url(url)
     if not cr_task:
@@ -49,6 +50,6 @@ def start_crawler_task(request) -> Response:
 def get_task_info(request, task_id: uuid.UUID) -> Response:
     task_info = CrawlerTask.get_task_info(task_id)
     if not task_info:
-        return Response(status=404)
+        raise NotFound()
 
     return Response(data=task_info)

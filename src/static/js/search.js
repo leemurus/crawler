@@ -4,7 +4,7 @@ $(document).ready(function () {
             type: "POST",
             url: "api/task",
             headers: {
-               'X-CSRFToken': getCookie('csrftoken'),
+                'X-CSRFToken': getCookie('csrftoken'),
             },
             data: {
                 url: $("#search-bar").val(),

@@ -19,6 +19,7 @@ services:
     postgres:
         image: postgres:15.1-alpine
         restart: always
+        command: [ "postgres", "-c", "log_statement=all" ]
         ports:
             - "${OUT_POSTGRES_PORT}:5432"
         environment:
@@ -33,10 +34,18 @@ services:
             context: ./docker
             args:
                 - BUILD_COMPONENT_NAME=celery_worker  # for image
+                - DEFAULT_USER  # from .env and set default user in container
+                - DEFAULT_USER_GROUP  # from .env and set default group in container
+        user: ${DEFAULT_USER}:${DEFAULT_USER_GROUP}
         restart: always
         hostname: celery_worker
         command: sh -c "./start.sh"
         environment:
+            - DB_HOST=${WEB_DB_HOST}  # from .env and set in django settings
+            - DB_PORT=${WEB_DB_PORT}  # from .env and set in django settings
+            - DB_NAME=${WEB_DB_NAME}  # from .env and set in django settings
+            - DB_USER=${WEB_DB_USER}  # from .env and set in django settings
+            - DB_PASSWORD=${WEB_DB_PASSWORD}  # from .env and set in django settings
             - CELERY_BROKER_URL  # from .env
             - CELERY_RESULT_BACKEND_URL  # from .env
         volumes:
@@ -50,6 +59,9 @@ services:
             context: ./docker
             args:
                 - BUILD_COMPONENT_NAME=web  # for image
+                - DEFAULT_USER  # from .env and set default user in container
+                - DEFAULT_USER_GROUP  # from .env and set default group in container
+        user: ${DEFAULT_USER}:${DEFAULT_USER_GROUP}
         restart: always
         hostname: web_server
         command: sh -c "./start.sh"
@@ -73,6 +85,9 @@ services:
             context: ./docker
             args:
                 - BUILD_COMPONENT_NAME=flower  # for image
+                - DEFAULT_USER  # from .env and set default user in container
+                - DEFAULT_USER_GROUP  # from .env and set default group in container
+        user: ${DEFAULT_USER}:${DEFAULT_USER_GROUP}
         restart: always
         hostname: flower
         command: sh -c "./start.sh"

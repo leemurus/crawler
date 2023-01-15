@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
 
+a {
+    word-break: break-all;
+}
+
 *, :before, :after {
     box-sizing: border-box;
     margin: 0;
@@ -10,11 +14,13 @@
 html {
     overflow-x: hidden;
     font-family: 'Secular One', sans-serif;
+    height: 100%;
 }
 
 body {
     background: #252525;
     color: white;
+    height: 100%;
 }
 
 header {
@@ -37,6 +43,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }
 
 .loader-background {
@@ -84,12 +91,25 @@ main {
     text-shadow: 0 0 1px white;
 }
 
+main h1 {
+    font-size: 2rem;
+}
+
+main .error {
+    display: none;
+}
+
+main .error h3 {
+    color: red;
+    font-size: 3em;
+}
 
 /* List */
 main .links_list {
     counter-reset: index;
     padding: 0;
     width: 50%;
+    height: 100%;
 }
 
 /* List element */
@@ -102,6 +122,13 @@ main .links_list li {
     font-size: 0.9rem;
 }
 
+main .links_list li a {
+    color: aquamarine;
+}
+
+main .links_list li a:hover {
+    color: white;
+}
 
 /* Element counter */
 main .links_list li::before {

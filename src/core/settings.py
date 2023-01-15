@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2=sl_o$!=5o)^ecqowddn56eij17cxny(uh3c=b3i=6j9+(#m8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -36,9 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_celery_results',
     'rest_framework',
     'apps.tasks',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +142,6 @@ CELERY_RESULT_EXTENDED = True
 # If True the task will report its status as ‘started’ when the task is
 # executed by a worker.
 CELERY_TASK_TRACK_STARTED = True
+
+# Logic settings:
+CACHE_FOR_URL_CRAWLING = 10  # seconds

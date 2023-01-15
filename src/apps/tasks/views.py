@@ -17,7 +17,6 @@ from .models import CrawlerTask
 @renderer_classes((TemplateHTMLRenderer,))
 @ensure_csrf_cookie  # add csrf token to the cookie
 def get_search_page(request: Request) -> Response:
-    print(type(request))
     return Response(template_name='search.html')
 
 

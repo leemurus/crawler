@@ -4,4 +4,4 @@
 python3 src/manage.py makemigrations
 python3 src/manage.py migrate
 
-python3 src/manage.py runserver "0.0.0.0:8000"
+gunicorn --chdir src/ --workers 2 --bind 0.0.0.0:8000 --log-level debug core.wsgi

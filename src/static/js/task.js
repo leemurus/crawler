@@ -1,3 +1,10 @@
+const TaskStatus = {
+  STARTED: "STARTED",
+  FAILURE: "FAILURE",
+  SUCCESS: "SUCCESS",
+};
+
+
 $(document).ready(function () {
     function removeLoader() {
         $("main").removeClass("loader-background")
@@ -33,11 +40,11 @@ $(document).ready(function () {
         }).done(function (data) {
             setMainUrl(data["url"])
 
-            if (data["status"] === "SUCCESS") {
+            if (data["status"] === TaskStatus.SUCCESS) {
                 $(".links_list").empty()
                 setUrls(data["result"])
                 removeLoader()
-            } else if (data["status"] === "FAILURE") {
+            } else if (data["status"] === TaskStatus.FAILURE) {
                 $(".links_list").hide()
                 removeLoader()
                 $("main .error").show()

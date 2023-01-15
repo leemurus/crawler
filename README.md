@@ -19,7 +19,7 @@ code like you would do in real life.
 - `make init`: initialize the project for development (copy .env.copy to .env)
 - `make migrate`: perform migrations inside the django docker container
 - `make create-superuser`: create a superuser in the django docker container
-- `show this help`: show this help
+- `make help`: show this help
 
 ## Preview:
 

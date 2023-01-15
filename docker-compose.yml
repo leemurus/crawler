@@ -34,6 +34,9 @@ services:
             context: ./docker
             args:
                 - BUILD_COMPONENT_NAME=celery_worker  # for image
+                - DEFAULT_USER  # from .env and set default user in container
+                - DEFAULT_USER_GROUP  # from .env and set default group in container
+        user: ${DEFAULT_USER}:${DEFAULT_USER_GROUP}
         restart: always
         hostname: celery_worker
         command: sh -c "./start.sh"
@@ -56,6 +59,9 @@ services:
             context: ./docker
             args:
                 - BUILD_COMPONENT_NAME=web  # for image
+                - DEFAULT_USER  # from .env and set default user in container
+                - DEFAULT_USER_GROUP  # from .env and set default group in container
+        user: ${DEFAULT_USER}:${DEFAULT_USER_GROUP}
         restart: always
         hostname: web_server
         command: sh -c "./start.sh"
@@ -79,6 +85,9 @@ services:
             context: ./docker
             args:
                 - BUILD_COMPONENT_NAME=flower  # for image
+                - DEFAULT_USER  # from .env and set default user in container
+                - DEFAULT_USER_GROUP  # from .env and set default group in container
+        user: ${DEFAULT_USER}:${DEFAULT_USER_GROUP}
         restart: always
         hostname: flower
         command: sh -c "./start.sh"

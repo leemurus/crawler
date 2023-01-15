@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
+from rest_framework.request import Request
 
 from .tasks import crawl_page
 from .models import CrawlerTask
@@ -15,19 +16,20 @@ from .models import CrawlerTask
 @api_view(['GET'])
 @renderer_classes((TemplateHTMLRenderer,))
 @ensure_csrf_cookie  # add csrf token to the cookie
-def get_search_page(request) -> Response:
+def get_search_page(request: Request) -> Response:
+    print(type(request))
     return Response(template_name='search.html')
 
 
 @api_view(['GET'])
 @renderer_classes((TemplateHTMLRenderer,))
 @ensure_csrf_cookie  # add csrf token to the cookie
-def get_task_page(request, task_id) -> Response:
+def get_task_page(request: Request, task_id: uuid.UUID) -> Response:
     return Response(template_name='task.html')
 
 
 @api_view(['POST'])
-def start_crawler_task(request) -> Response:
+def start_crawler_task(request: Request) -> Response:
     url = request.data.get('url')
 
     # Validate url
@@ -42,12 +44,12 @@ def start_crawler_task(request) -> Response:
         cr_task = crawl_page.delay(url)
 
     return Response(
-        data={'task_id': cr_task.task_id}
+        data={'task_id': cr_task.task_id},
     )
 
 
 @api_view(['GET'])
-def get_task_info(request, task_id: uuid.UUID) -> Response:
+def get_task_info(request: Request, task_id: uuid.UUID) -> Response:
     task_info = CrawlerTask.get_task_info(task_id)
     if not task_info:
         raise NotFound()

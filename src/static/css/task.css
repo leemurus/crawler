@@ -91,6 +91,10 @@ main {
     text-shadow: 0 0 1px white;
 }
 
+main h1 {
+    font-size: 2rem;
+}
+
 main .error {
     display: none;
 }
